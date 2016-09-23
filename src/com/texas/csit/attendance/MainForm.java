@@ -10,6 +10,8 @@ import java.awt.BorderLayout;
 public class MainForm extends javax.swing.JFrame {
 
     private StudentRegisterPanel studentRegisterPanel;
+    private StudentEditPanel studentEditPanel;
+    private AttendanceAddPanel attendanceAddPanel;
     
     /**
      * Creates new form MainForm
@@ -22,9 +24,13 @@ public class MainForm extends javax.swing.JFrame {
         //init objects
         
         studentRegisterPanel = new StudentRegisterPanel();
+        studentEditPanel = new StudentEditPanel();
+        attendanceAddPanel = new AttendanceAddPanel();
         
         //setting default visible false
         studentRegisterPanel.setVisible(false);
+        studentEditPanel.setVisible(false);
+        attendanceAddPanel.setVisible(false);
     }
 
     /**
@@ -42,10 +48,10 @@ public class MainForm extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        studentRegisterMenuItem = new javax.swing.JMenuItem();
+        addendanceAddMenuItem = new javax.swing.JMenuItem();
+        attendanceEditMenuItem = new javax.swing.JMenu();
+        studentEditMenuItem = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -59,12 +65,14 @@ public class MainForm extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+            .addGap(0, 562, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 249, Short.MAX_VALUE)
+            .addGap(0, 303, Short.MAX_VALUE)
         );
+
+        footerPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton1.setText("Exit");
 
@@ -84,37 +92,47 @@ public class MainForm extends javax.swing.JFrame {
         footerPanelLayout.setVerticalGroup(
             footerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, footerPanelLayout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(footerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addGap(20, 20, 20))
+                .addContainerGap())
         );
 
         jMenu1.setText("New");
 
-        jMenuItem1.setText("Student");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        studentRegisterMenuItem.setText("Student");
+        studentRegisterMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                studentRegisterMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(studentRegisterMenuItem);
 
-        jMenuItem2.setText("Attendance");
-        jMenu1.add(jMenuItem2);
+        addendanceAddMenuItem.setText("Attendance");
+        addendanceAddMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addendanceAddMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(addendanceAddMenuItem);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        attendanceEditMenuItem.setText("Edit");
 
-        jMenuItem3.setText("Student");
-        jMenu2.add(jMenuItem3);
+        studentEditMenuItem.setText("Student");
+        studentEditMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentEditMenuItemActionPerformed(evt);
+            }
+        });
+        attendanceEditMenuItem.add(studentEditMenuItem);
 
         jMenuItem4.setText("Attendance");
-        jMenu2.add(jMenuItem4);
+        attendanceEditMenuItem.add(jMenuItem4);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(attendanceEditMenuItem);
 
         jMenu3.setText("View");
 
@@ -139,28 +157,46 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(footerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(footerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(footerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(footerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void studentRegisterMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentRegisterMenuItemActionPerformed
 
         studentRegisterPanel.setVisible(true);
         mainPanel.add(studentRegisterPanel, BorderLayout.CENTER);
         
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+        studentEditPanel.setVisible(false);
+                
+        
+    }//GEN-LAST:event_studentRegisterMenuItemActionPerformed
+
+    private void studentEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentEditMenuItemActionPerformed
+        studentEditPanel.setVisible(true);
+        mainPanel.add(studentEditPanel,BorderLayout.CENTER);
+        
+        studentRegisterPanel.setVisible(false);
+    }//GEN-LAST:event_studentEditMenuItemActionPerformed
+
+    private void addendanceAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addendanceAddMenuItemActionPerformed
+
+        attendanceAddPanel.setVisible(true);
+        mainPanel.add(attendanceAddPanel, BorderLayout.CENTER);
+        
+        
+    }//GEN-LAST:event_addendanceAddMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,20 +234,20 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem addendanceAddMenuItem;
+    private javax.swing.JMenu attendanceEditMenuItem;
     private javax.swing.JPanel footerPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JMenuItem studentEditMenuItem;
+    private javax.swing.JMenuItem studentRegisterMenuItem;
     // End of variables declaration//GEN-END:variables
 }
