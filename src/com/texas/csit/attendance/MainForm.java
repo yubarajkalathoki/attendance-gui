@@ -60,6 +60,7 @@ public class MainForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Attendance Management System");
+        setPreferredSize(new java.awt.Dimension(600, 500));
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -174,28 +175,31 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void studentRegisterMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentRegisterMenuItemActionPerformed
-
-        studentRegisterPanel.setVisible(true);
+//        studentRegisterPanel = new StudentRegisterPanel();
         mainPanel.add(studentRegisterPanel, BorderLayout.CENTER);
+        studentRegisterPanel.setVisible(true);
         
         studentEditPanel.setVisible(false);
-                
+        attendanceAddPanel.setVisible(false);
         
     }//GEN-LAST:event_studentRegisterMenuItemActionPerformed
 
     private void studentEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentEditMenuItemActionPerformed
-        studentEditPanel.setVisible(true);
+//        studentEditPanel = new StudentEditPanel();
         mainPanel.add(studentEditPanel,BorderLayout.CENTER);
+        studentEditPanel.setVisible(true);
         
         studentRegisterPanel.setVisible(false);
+        attendanceAddPanel.setVisible(false);
     }//GEN-LAST:event_studentEditMenuItemActionPerformed
 
     private void addendanceAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addendanceAddMenuItemActionPerformed
-
-        attendanceAddPanel.setVisible(true);
+//        attendanceAddPanel = new AttendanceAddPanel();
         mainPanel.add(attendanceAddPanel, BorderLayout.CENTER);
-        
-        
+        attendanceAddPanel.setVisible(true);
+        attendanceAddPanel.displayStudentsForAttendance();
+        studentRegisterPanel.setVisible(false);
+        studentEditPanel.setVisible(false);
     }//GEN-LAST:event_addendanceAddMenuItemActionPerformed
 
     /**

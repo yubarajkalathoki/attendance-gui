@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.texas.csit.attendance;
 
 import java.awt.GridLayout;
@@ -10,10 +5,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -21,35 +18,13 @@ import javax.swing.JCheckBox;
  */
 public class AttendanceAddPanel extends javax.swing.JPanel {
 
+    ArrayList<JCheckBox> checkBoxes = new ArrayList<>();
     /**
      * Creates new form AttendanceAddPanel
      */
     public AttendanceAddPanel() {
         initComponents();
-        jPanel1.setLayout(new GridLayout(0, 2, 10, 10));
-        
-        Connection cn = DatabaseConnection.getConnection();
-        
-        String sql = "Select * from student";
-        
-        ArrayList<String> studentList = new ArrayList<>();
-        try {
-            Statement stat =cn.createStatement();
-            ResultSet rs = stat.executeQuery(sql);
-            
-            while(rs.next()){
-                String name = rs.getString("first_name");
-                studentList.add(name);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        System.out.println("student list : "+studentList);
-        for(String s: studentList){
-            JCheckBox cb = new JCheckBox();
-            cb.setText(s);
-            jPanel1.add(cb);
-        }
+        displayStudentsForAttendance();
     }
 
     /**
@@ -63,6 +38,8 @@ public class AttendanceAddPanel extends javax.swing.JPanel {
 
         studentScrollPane = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        addButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -72,10 +49,34 @@ public class AttendanceAddPanel extends javax.swing.JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 276, Short.MAX_VALUE)
+            .addGap(0, 363, Short.MAX_VALUE)
         );
 
         studentScrollPane.setViewportView(jPanel1);
+
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(152, 152, 152)
+                .addComponent(addButton)
+                .addContainerGap(177, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(addButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -83,21 +84,82 @@ public class AttendanceAddPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(studentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(studentScrollPane)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(studentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                .addComponent(studentScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        ArrayList<String> selectedStudents = new ArrayList();
+        for(JCheckBox c: checkBoxes){
+            if(c.isSelected()){
+                selectedStudents.add(c.getText());
+            }
+        }
+        
+        Date attendanceDate = new Date();
+        Timestamp timestamp = new  Timestamp(attendanceDate.getTime());
+        
+        Connection cn = DatabaseConnection.getConnection();
+        try {
+           for(String rollNo: selectedStudents){ 
+                Statement stat = cn.createStatement();
+                String sql = "insert into attendanc_info (roll_no, attendance_status, attendance_date) values ("+rollNo+", 'P', '"+timestamp+"')" ;
+                stat.executeUpdate(sql);
+           }
+           JOptionPane.showMessageDialog(null, "Attendance updated!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed!");
+        }
+        
+    }//GEN-LAST:event_addButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane studentScrollPane;
     // End of variables declaration//GEN-END:variables
+
+    public void displayStudentsForAttendance() {
+        jPanel1.removeAll();
+         jPanel1.setLayout(new GridLayout(0, 2, 10, 10));
+        Connection cn = DatabaseConnection.getConnection();
+
+        String sql = "Select * from student";
+
+        ArrayList<String> studentList = new ArrayList<>();
+        try {
+            Statement stat = cn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+
+            while (rs.next()) {
+                String name = rs.getString("roll_number");
+                studentList.add(name);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println("student list : " + studentList);
+        for (String s : studentList) {
+            JCheckBox cb = new JCheckBox();
+            cb.setText(s);
+            checkBoxes.add(cb);// for button functionality
+            jPanel1.add(cb);
+        }
+
+    }
 }
