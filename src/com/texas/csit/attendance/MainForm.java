@@ -12,7 +12,7 @@ public class MainForm extends javax.swing.JFrame {
     private StudentRegisterPanel studentRegisterPanel;
     private StudentEditPanel studentEditPanel;
     private AttendanceAddPanel attendanceAddPanel;
-    
+    private AttendanceEditPanel attendanceEditPanel;
     /**
      * Creates new form MainForm
      */
@@ -22,15 +22,16 @@ public class MainForm extends javax.swing.JFrame {
         mainPanel.setLayout(new BorderLayout());
         
         //init objects
-        
         studentRegisterPanel = new StudentRegisterPanel();
         studentEditPanel = new StudentEditPanel();
         attendanceAddPanel = new AttendanceAddPanel();
+        attendanceEditPanel = new AttendanceEditPanel();
         
         //setting default visible false
         studentRegisterPanel.setVisible(false);
         studentEditPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
+        attendanceEditPanel.setVisible(false);
     }
 
     /**
@@ -131,6 +132,11 @@ public class MainForm extends javax.swing.JFrame {
         attendanceEditMenuItem.add(studentEditMenuItem);
 
         jMenuItem4.setText("Attendance");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         attendanceEditMenuItem.add(jMenuItem4);
 
         jMenuBar1.add(attendanceEditMenuItem);
@@ -181,7 +187,7 @@ public class MainForm extends javax.swing.JFrame {
         
         studentEditPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
-        
+        attendanceEditPanel.setVisible(false);
     }//GEN-LAST:event_studentRegisterMenuItemActionPerformed
 
     private void studentEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentEditMenuItemActionPerformed
@@ -191,16 +197,29 @@ public class MainForm extends javax.swing.JFrame {
         
         studentRegisterPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
+        attendanceEditPanel.setVisible(false);
     }//GEN-LAST:event_studentEditMenuItemActionPerformed
 
     private void addendanceAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addendanceAddMenuItemActionPerformed
 //        attendanceAddPanel = new AttendanceAddPanel();
         mainPanel.add(attendanceAddPanel, BorderLayout.CENTER);
         attendanceAddPanel.setVisible(true);
+        
         attendanceAddPanel.displayStudentsForAttendance();
         studentRegisterPanel.setVisible(false);
         studentEditPanel.setVisible(false);
+        attendanceEditPanel.setVisible(false);
     }//GEN-LAST:event_addendanceAddMenuItemActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        mainPanel.add(attendanceEditPanel, BorderLayout.CENTER);
+        attendanceEditPanel.setVisible(true);
+        
+        attendanceEditPanel.displayStudentsRollNoToEditAttendance();
+        studentRegisterPanel.setVisible(false);
+        studentEditPanel.setVisible(false);
+        attendanceAddPanel.setVisible(false);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

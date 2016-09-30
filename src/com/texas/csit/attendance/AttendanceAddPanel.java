@@ -24,7 +24,7 @@ public class AttendanceAddPanel extends javax.swing.JPanel {
      */
     public AttendanceAddPanel() {
         initComponents();
-        displayStudentsForAttendance();
+//        displayStudentsForAttendance();
     }
 
     /**
