@@ -1,7 +1,10 @@
-
 package com.texas.csit.attendance;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,20 +16,54 @@ public class MainForm extends javax.swing.JFrame {
     private StudentEditPanel studentEditPanel;
     private AttendanceAddPanel attendanceAddPanel;
     private AttendanceEditPanel attendanceEditPanel;
+    private DashboardPanel dashboardPanel;
+
     /**
      * Creates new form MainForm
      */
     public MainForm() {
         initComponents();
-        
+
+        /**
+         * Minimize frame when user clicks close button
+         */
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+//                setExtendedState(JFrame.ICONIFIED);
+
+                if (JOptionPane.showConfirmDialog(null,
+                        "Are you sure to close this window?", "Really Closing?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+
+        //centering jframe
+        setLocationRelativeTo(null);
+
+        /**
+         * Home button visible false default
+         */
+        homeButton.setVisible(false);
+
         mainPanel.setLayout(new BorderLayout());
-        
+
         //init objects
         studentRegisterPanel = new StudentRegisterPanel();
         studentEditPanel = new StudentEditPanel();
         attendanceAddPanel = new AttendanceAddPanel();
         attendanceEditPanel = new AttendanceEditPanel();
-        
+        dashboardPanel = new DashboardPanel();
+
+        /**
+         * Displaying dash board panel in default
+         */
+        mainPanel.add(dashboardPanel, BorderLayout.CENTER);
+        dashboardPanel.setVisible(true);
+
         //setting default visible false
         studentRegisterPanel.setVisible(false);
         studentEditPanel.setVisible(false);
@@ -46,7 +83,7 @@ public class MainForm extends javax.swing.JFrame {
         mainPanel = new javax.swing.JPanel();
         footerPanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        homeButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         studentRegisterMenuItem = new javax.swing.JMenuItem();
@@ -59,9 +96,10 @@ public class MainForm extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Attendance Management System");
-        setPreferredSize(new java.awt.Dimension(600, 500));
+        setPreferredSize(new java.awt.Dimension(650, 650));
+        setResizable(false);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -77,8 +115,14 @@ public class MainForm extends javax.swing.JFrame {
         footerPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jButton1.setText("Exit");
+        jButton1.setToolTipText("Click to exit application");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Home");
+        homeButton.setText("Home");
 
         javax.swing.GroupLayout footerPanelLayout = new javax.swing.GroupLayout(footerPanel);
         footerPanel.setLayout(footerPanelLayout);
@@ -86,7 +130,7 @@ public class MainForm extends javax.swing.JFrame {
             footerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, footerPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
+                .addComponent(homeButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
@@ -97,7 +141,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(footerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(homeButton))
                 .addContainerGap())
         );
 
@@ -184,7 +228,9 @@ public class MainForm extends javax.swing.JFrame {
 //        studentRegisterPanel = new StudentRegisterPanel();
         mainPanel.add(studentRegisterPanel, BorderLayout.CENTER);
         studentRegisterPanel.setVisible(true);
-        
+
+        homeButton.setVisible(true);
+        dashboardPanel.setVisible(false);
         studentEditPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
         attendanceEditPanel.setVisible(false);
@@ -192,9 +238,11 @@ public class MainForm extends javax.swing.JFrame {
 
     private void studentEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentEditMenuItemActionPerformed
 //        studentEditPanel = new StudentEditPanel();
-        mainPanel.add(studentEditPanel,BorderLayout.CENTER);
+        mainPanel.add(studentEditPanel, BorderLayout.CENTER);
         studentEditPanel.setVisible(true);
-        
+
+        homeButton.setVisible(true);
+        dashboardPanel.setVisible(false);
         studentRegisterPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
         attendanceEditPanel.setVisible(false);
@@ -204,8 +252,10 @@ public class MainForm extends javax.swing.JFrame {
 //        attendanceAddPanel = new AttendanceAddPanel();
         mainPanel.add(attendanceAddPanel, BorderLayout.CENTER);
         attendanceAddPanel.setVisible(true);
-        
         attendanceAddPanel.displayStudentsForAttendance();
+
+        homeButton.setVisible(true);
+        dashboardPanel.setVisible(false);
         studentRegisterPanel.setVisible(false);
         studentEditPanel.setVisible(false);
         attendanceEditPanel.setVisible(false);
@@ -214,40 +264,31 @@ public class MainForm extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         mainPanel.add(attendanceEditPanel, BorderLayout.CENTER);
         attendanceEditPanel.setVisible(true);
-        
+
+        homeButton.setVisible(true);
+        dashboardPanel.setVisible(false);
         attendanceEditPanel.displayStudentsRollNoToEditAttendance();
         studentRegisterPanel.setVisible(false);
         studentEditPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        /**
+         * ask confirmation when user clicks exit button
+         */
+        if (JOptionPane.showConfirmDialog(this,
+                "Are you sure to close this application?", "Really Closing?",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -260,8 +301,8 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem addendanceAddMenuItem;
     private javax.swing.JMenu attendanceEditMenuItem;
     private javax.swing.JPanel footerPanel;
+    private javax.swing.JButton homeButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;

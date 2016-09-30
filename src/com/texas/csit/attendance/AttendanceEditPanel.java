@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,14 +23,14 @@ import javax.swing.JOptionPane;
  */
 public class AttendanceEditPanel extends javax.swing.JPanel {
 
-    List<JCheckBox> checkBoxes = new ArrayList<>();
+    List<JCheckBox> checkBoxes;
 
     /**
      * Creates new form AttendanceEditPanel
      */
     public AttendanceEditPanel() {
         initComponents();
-//        displayStudentsRollNoToEditAttendance();
+        attendanceNotAvailablePanel.setVisible(false);
     }
 
     /**
@@ -43,15 +42,23 @@ public class AttendanceEditPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        attendanceEditOuterPanel = new javax.swing.JPanel();
+        attendanceEditorPanel = new javax.swing.JPanel();
         attendanceEditScrollPane = new javax.swing.JScrollPane();
         attendanceEditInnerPanel = new javax.swing.JPanel();
         attendanceUpdateButton = new javax.swing.JButton();
+        attendanceNotAvailablePanel = new javax.swing.JPanel();
+        attendanceNotAvailableLabel = new javax.swing.JLabel();
+
+        attendanceEditOuterPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Attendance Edit", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 0, 204))); // NOI18N
+
+        attendanceEditorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Student's roll numbers", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 0, 204))); // NOI18N
 
         javax.swing.GroupLayout attendanceEditInnerPanelLayout = new javax.swing.GroupLayout(attendanceEditInnerPanel);
         attendanceEditInnerPanel.setLayout(attendanceEditInnerPanelLayout);
         attendanceEditInnerPanelLayout.setHorizontalGroup(
             attendanceEditInnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 378, Short.MAX_VALUE)
+            .addGap(0, 397, Short.MAX_VALUE)
         );
         attendanceEditInnerPanelLayout.setVerticalGroup(
             attendanceEditInnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -67,139 +74,174 @@ public class AttendanceEditPanel extends javax.swing.JPanel {
             }
         });
 
+        javax.swing.GroupLayout attendanceEditorPanelLayout = new javax.swing.GroupLayout(attendanceEditorPanel);
+        attendanceEditorPanel.setLayout(attendanceEditorPanelLayout);
+        attendanceEditorPanelLayout.setHorizontalGroup(
+            attendanceEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(attendanceEditorPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(attendanceEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(attendanceEditScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(attendanceEditorPanelLayout.createSequentialGroup()
+                        .addGap(169, 169, 169)
+                        .addComponent(attendanceUpdateButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        attendanceEditorPanelLayout.setVerticalGroup(
+            attendanceEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(attendanceEditorPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(attendanceEditScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(attendanceUpdateButton)
+                .addContainerGap())
+        );
+
+        attendanceNotAvailablePanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        attendanceNotAvailableLabel.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
+        attendanceNotAvailableLabel.setText("Sorry, Attendace is not available for today.");
+
+        javax.swing.GroupLayout attendanceNotAvailablePanelLayout = new javax.swing.GroupLayout(attendanceNotAvailablePanel);
+        attendanceNotAvailablePanel.setLayout(attendanceNotAvailablePanelLayout);
+        attendanceNotAvailablePanelLayout.setHorizontalGroup(
+            attendanceNotAvailablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(attendanceNotAvailablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(attendanceNotAvailableLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        attendanceNotAvailablePanelLayout.setVerticalGroup(
+            attendanceNotAvailablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(attendanceNotAvailablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(attendanceNotAvailableLabel)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout attendanceEditOuterPanelLayout = new javax.swing.GroupLayout(attendanceEditOuterPanel);
+        attendanceEditOuterPanel.setLayout(attendanceEditOuterPanelLayout);
+        attendanceEditOuterPanelLayout.setHorizontalGroup(
+            attendanceEditOuterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(attendanceEditOuterPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(attendanceEditOuterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(attendanceEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(attendanceNotAvailablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        attendanceEditOuterPanelLayout.setVerticalGroup(
+            attendanceEditOuterPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(attendanceEditOuterPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(attendanceNotAvailablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(attendanceEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(attendanceEditScrollPane)
+                .addComponent(attendanceEditOuterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addComponent(attendanceUpdateButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(attendanceEditScrollPane)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(attendanceUpdateButton)
-                .addGap(22, 22, 22))
+                .addComponent(attendanceEditOuterPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void attendanceUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attendanceUpdateButtonActionPerformed
-
-        ArrayList<String> selectedStudents = new ArrayList();
-        for (JCheckBox c : checkBoxes) {
-            if (c.isSelected()) {
-                selectedStudents.add(c.getText());
+        int i = 0;
+        for (JCheckBox checkBox : checkBoxes) {
+            if (checkBox.isSelected()) {
+                i++;
             }
         }
 
-        System.out.println("selected student size: " + selectedStudents.size());
-
-        Date attendanceDate = new Date();
-        Timestamp timestamp = new Timestamp(attendanceDate.getTime());
-
-        List<AttendanceInfoDto> oldAttendanceList = getTodaysAttendance();
-        String date = getTodaysDate();
-        Connection cn = DatabaseConnection.getConnection();
-        try {
-            Statement stat = cn.createStatement();
-            //delete old attendance for particular day
-            String sql = "delete from attendanc_info where attendance_date LIKE '" + date + "%'";
-            stat.executeUpdate(sql);
-            for (String rollNo : selectedStudents) {
-                String sql1 = "insert into attendanc_info (roll_no, attendance_status, attendance_date) values (" + rollNo + ", 'P', '" + timestamp + "')";
-                stat.executeUpdate(sql1);
+        if (i == 0) {
+            JOptionPane.showMessageDialog(null, "Please select atleast one student's roll number.");
+        } else {
+            Date attendanceDate = new Date();
+            Timestamp timestamp = new Timestamp(attendanceDate.getTime());
+            AttendanceModel model = new AttendanceModel();
+            String date = model.getTodaysDate();
+            Connection cn = DatabaseConnection.getConnection();
+            try {
+                Statement stat = cn.createStatement();
+                //delete old attendance for particular day and add new selected
+                String sql = "delete from attendance_info where attendance_date LIKE '" + date + "%'";
+                stat.executeUpdate(sql);
+                for (JCheckBox c : checkBoxes) {
+                    if (c.isSelected()) {
+                        String sql1 = "insert into attendance_info (roll_no, attendance_status, attendance_date) values (" + c.getText() + ", 'P', '" + timestamp + "')";
+                        stat.executeUpdate(sql1);
+                    } else {
+                        String sql2 = "insert into attendance_info (roll_no, attendance_status, attendance_date) values (" + c.getText() + ", 'A', '" + timestamp + "')";
+                        stat.executeUpdate(sql2);
+                    }
+                }
+                JOptionPane.showMessageDialog(null, "Attendance updated!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Failed!");
             }
-            JOptionPane.showMessageDialog(null, "Attendance updated!");
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Failed!");
         }
     }//GEN-LAST:event_attendanceUpdateButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel attendanceEditInnerPanel;
+    private javax.swing.JPanel attendanceEditOuterPanel;
     private javax.swing.JScrollPane attendanceEditScrollPane;
+    public javax.swing.JPanel attendanceEditorPanel;
+    private javax.swing.JLabel attendanceNotAvailableLabel;
+    public javax.swing.JPanel attendanceNotAvailablePanel;
     private javax.swing.JButton attendanceUpdateButton;
     // End of variables declaration//GEN-END:variables
 
     public void displayStudentsRollNoToEditAttendance() {
-        attendanceEditInnerPanel.removeAll();
-        attendanceEditInnerPanel.setLayout(new GridLayout(0, 2, 10, 10));
-        Connection cn = DatabaseConnection.getConnection();
-
-        String sql = "Select * from student";
-
-        ArrayList<String> studentList = new ArrayList<>();
-        try {
-            Statement stat = cn.createStatement();
-            ResultSet rs = stat.executeQuery(sql);
-
-            while (rs.next()) {
-                String name = rs.getString("roll_number");
-                studentList.add(name);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        System.out.println("student list : " + studentList);
-
-        ArrayList<AttendanceInfoDto> attendanceList = getTodaysAttendance();
-
-        for (String s : studentList) {
-            JCheckBox cb = new JCheckBox();
-            cb.setText(s);
-
-            for (AttendanceInfoDto dto : attendanceList) {
-
-                if (dto.getRollNo() == Integer.parseInt(s)) {
-                    cb.setSelected(true);
+        checkBoxes = new ArrayList<>();
+        AttendanceModel model = new AttendanceModel();
+        ArrayList<AttendanceInfoDto> attendanceList = model.getTodaysAttendance();
+        if (attendanceList.size() > 0) {
+            attendanceEditInnerPanel.removeAll();
+            attendanceEditInnerPanel.setLayout(new GridLayout(0, 2, 10, 10));
+            Connection cn = DatabaseConnection.getConnection();
+            String sql = "Select * from student";
+            ArrayList<String> studentList = new ArrayList<>();
+            try {
+                Statement stat = cn.createStatement();
+                ResultSet rs = stat.executeQuery(sql);
+                while (rs.next()) {
+                    String name = rs.getString("roll_number");
+                    studentList.add(name);
                 }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
-
-            checkBoxes.add(cb);// for button functionality
-            attendanceEditInnerPanel.add(cb);
+            for (String s : studentList) {
+                JCheckBox cb = new JCheckBox();
+                cb.setText(s);
+                for (AttendanceInfoDto dto : attendanceList) {
+                    if (dto.getRollNo() == Integer.parseInt(s) && dto.getAttendanceStatus() == 'P') {
+                        cb.setSelected(true);
+                    }
+                }
+                checkBoxes.add(cb);// for button functionality
+                attendanceEditInnerPanel.add(cb);
+            }
+        } else {
+            attendanceNotAvailablePanel.setVisible(true);
+            attendanceEditorPanel.setVisible(false);
         }
     }
-
-    private ArrayList<AttendanceInfoDto> getTodaysAttendance() {
-        ArrayList<AttendanceInfoDto> attendanceList = new ArrayList<>();
-        Connection cn = DatabaseConnection.getConnection();
-
-        String date = getTodaysDate();
-        System.out.println("date: " + date);
-        String sql = "Select * from attendanc_info where attendance_date LIKE '" + date + "%'";
-        System.out.println("sql: " + sql);
-        try {
-            Statement stat = cn.createStatement();
-            ResultSet rs = stat.executeQuery(sql);
-            while (rs.next()) {
-                AttendanceInfoDto dto = new AttendanceInfoDto();
-                dto.setAttendanceDate(rs.getString("attendance_date"));
-                dto.setAttendanceStatus(rs.getString("attendance_status").charAt(0));
-                dto.setId(Integer.parseInt(rs.getString("id")));
-                dto.setRollNo(Integer.parseInt(rs.getString("roll_no")));
-                attendanceList.add(dto);
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return attendanceList;
-    }
-
-    private String getTodaysDate() {
-        Date attendanceDate = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String date = format.format(attendanceDate);
-        return date;
-    }
-
 }

@@ -19,7 +19,7 @@ public class DatabaseConnection {
             con = "com.mysql.jdbc.Driver";
             Class.forName(con);
             cn = DriverManager.getConnection(server, username, password);
-            System.out.println("Database Connected!");
+//            System.out.println("Database Connected!");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
