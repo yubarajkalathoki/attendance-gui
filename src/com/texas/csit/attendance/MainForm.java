@@ -17,7 +17,7 @@ public class MainForm extends javax.swing.JFrame {
     private AttendanceAddPanel attendanceAddPanel;
     private AttendanceEditPanel attendanceEditPanel;
     private DashboardPanel dashboardPanel;
-
+private StudentDetailsPanel studentDetailsPanel;
     /**
      * Creates new form MainForm
      */
@@ -57,7 +57,8 @@ public class MainForm extends javax.swing.JFrame {
         attendanceAddPanel = new AttendanceAddPanel();
         attendanceEditPanel = new AttendanceEditPanel();
         dashboardPanel = new DashboardPanel();
-
+        studentDetailsPanel=new StudentDetailsPanel();
+        
         /**
          * Displaying dash board panel in default
          */
@@ -69,6 +70,7 @@ public class MainForm extends javax.swing.JFrame {
         studentEditPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
         attendanceEditPanel.setVisible(false);
+        studentDetailsPanel.setVisible(false);
     }
 
     /**
@@ -92,7 +94,7 @@ public class MainForm extends javax.swing.JFrame {
         studentEditMenuItem = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        studentViewMenuItem = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
@@ -187,8 +189,13 @@ public class MainForm extends javax.swing.JFrame {
 
         jMenu3.setText("View");
 
-        jMenuItem5.setText("Student");
-        jMenu3.add(jMenuItem5);
+        studentViewMenuItem.setText("Student");
+        studentViewMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentViewMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(studentViewMenuItem);
 
         jMenuItem6.setText("Attendance");
         jMenu3.add(jMenuItem6);
@@ -234,6 +241,7 @@ public class MainForm extends javax.swing.JFrame {
         studentEditPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
         attendanceEditPanel.setVisible(false);
+        studentDetailsPanel.setVisible(false);
     }//GEN-LAST:event_studentRegisterMenuItemActionPerformed
 
     private void studentEditMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentEditMenuItemActionPerformed
@@ -246,6 +254,7 @@ public class MainForm extends javax.swing.JFrame {
         studentRegisterPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
         attendanceEditPanel.setVisible(false);
+        studentDetailsPanel.setVisible(false);
     }//GEN-LAST:event_studentEditMenuItemActionPerformed
 
     private void addendanceAddMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addendanceAddMenuItemActionPerformed
@@ -259,6 +268,7 @@ public class MainForm extends javax.swing.JFrame {
         studentRegisterPanel.setVisible(false);
         studentEditPanel.setVisible(false);
         attendanceEditPanel.setVisible(false);
+        studentDetailsPanel.setVisible(false);
     }//GEN-LAST:event_addendanceAddMenuItemActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -271,6 +281,7 @@ public class MainForm extends javax.swing.JFrame {
         studentRegisterPanel.setVisible(false);
         studentEditPanel.setVisible(false);
         attendanceAddPanel.setVisible(false);
+        studentDetailsPanel.setVisible(false);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -284,6 +295,19 @@ public class MainForm extends javax.swing.JFrame {
             System.exit(0);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void studentViewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentViewMenuItemActionPerformed
+         mainPanel.add(studentDetailsPanel, BorderLayout.CENTER);
+        studentDetailsPanel.setVisible(true);
+
+        homeButton.setVisible(true);
+        dashboardPanel.setVisible(false);
+        attendanceEditPanel.displayStudentsRollNoToEditAttendance();
+        studentRegisterPanel.setVisible(false);
+        studentEditPanel.setVisible(false);
+        attendanceAddPanel.setVisible(false);
+        attendanceEditPanel.setVisible(false);
+    }//GEN-LAST:event_studentViewMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -308,10 +332,10 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuItem studentEditMenuItem;
     private javax.swing.JMenuItem studentRegisterMenuItem;
+    private javax.swing.JMenuItem studentViewMenuItem;
     // End of variables declaration//GEN-END:variables
 }

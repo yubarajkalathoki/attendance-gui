@@ -1,9 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.texas.csit.attendance;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,6 +19,7 @@ public class StudentDetailsPanel extends javax.swing.JPanel {
      */
     public StudentDetailsPanel() {
         initComponents();
+        updateTable();
     }
 
     /**
@@ -29,11 +33,11 @@ public class StudentDetailsPanel extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        studentDetailsTable = new javax.swing.JTable();
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Student Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(0, 0, 204))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Student Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 0, 204))); // NOI18N
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        studentDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -59,16 +63,16 @@ public class StudentDetailsPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
+        jScrollPane1.setViewportView(studentDetailsTable);
+        if (studentDetailsTable.getColumnModel().getColumnCount() > 0) {
+            studentDetailsTable.getColumnModel().getColumn(0).setResizable(false);
+            studentDetailsTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+            studentDetailsTable.getColumnModel().getColumn(1).setResizable(false);
+            studentDetailsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+            studentDetailsTable.getColumnModel().getColumn(2).setResizable(false);
+            studentDetailsTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+            studentDetailsTable.getColumnModel().getColumn(3).setResizable(false);
+            studentDetailsTable.getColumnModel().getColumn(3).setPreferredWidth(80);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -77,8 +81,8 @@ public class StudentDetailsPanel extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,6 +114,42 @@ public class StudentDetailsPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable studentDetailsTable;
     // End of variables declaration//GEN-END:variables
+
+    private void updateTable() {
+        studentDetailsTable.invalidate();
+        DefaultTableModel model = (DefaultTableModel) studentDetailsTable.getModel();
+        model.setRowCount(0);
+        Object[] rows = new Object[4];
+        List<StudentDto> studentList = getStudentDtos();
+        for(int i=0; i<studentList.size(); i++){
+            rows[0]=studentList.get(i).getRollNo();
+            rows[1]=studentList.get(i).getFullName();
+            rows[2]=studentList.get(i).getMobileNumber();
+            rows[3]=studentList.get(i).getSemester();
+            model.addRow(rows);
+        }
+    }
+
+    private List<StudentDto> getStudentDtos() {
+        List<StudentDto> studentList = new ArrayList<>();
+        Connection cn = DatabaseConnection.getConnection();
+        String sql = "select * from student order by roll_number";
+        try {
+            Statement stat = cn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            while (rs.next()) {
+                StudentDto dto = new StudentDto();
+                dto.setFullName(rs.getString("first_name") + " " + rs.getString("middle_name") + " " + rs.getString("last_name"));
+                dto.setMobileNumber(rs.getString("contact_no"));
+                dto.setRollNo(Integer.parseInt(rs.getString("roll_number")));
+                dto.setSemester(rs.getString("semester"));
+                studentList.add(dto);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return studentList;
+    }
 }
